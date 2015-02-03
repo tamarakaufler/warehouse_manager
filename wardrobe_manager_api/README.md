@@ -1,57 +1,8 @@
-# warehouse_manager
-GUI and API web applications for warehouse management
-
-REQUIREMENTS FOR GUI implementation
-
-Two implementations:
-    Catalyst based: wardrobe_manager_catalyst
-    CGI (MVC, DBIx::Class, Template):    : wardrobe_manager_cgi
-
-INSTRUCTIONS FOR SETTING UP THE CGI Wardrobe Manager APPLICATION
-
-Tested on:
-      Ubuntu 14.04
-      Apache/2.4.7
-      MySQL 5.5.38
-      perl 5.18
-
-1. MySQL
-
-      mysql -u root -p < wardrobemanager.sql
-
-2. Apache    
-   
-      Drop the wardrobe_manager directory into the cgi directory.
-      Insert the following (change /var/www/wardrobe_manager/ as
-      required) into the /etc/apache2/site-enabled/000-default:
-
-      ScriptAlias /wardrobe_manager/ /var/www/wardrobe_manager/
-      <Directory "/var/www/wardrobe_manager">
-             AllowOverride None
-             Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
-             Order allow,deny
-             Allow from all
-     </Directory>
-
-3. manager.cgi needs to be executable by all (or www-data user)
-
-      chmod a+x manager.cgi
-
-4. Required modules
-
-    CGI       
-    DBIx::Class       
-    Template 
-    Class:Accessor	    
-    Text::CSV:Encoded
-
----------------------------------------------------------------------------
-
-REQUIREMENTS FOR web services implementation
+REQUIREMENTS
 
 Provide a RESTful web service with equivalent functionality as the Wardrobe Management web application with GUI (in jeroboam repo).
 
-Web Services IMPLEMENTATION
+IMPLEMENTATION
 
 The implemented Wardrobe Management API web service is a Catalyst application built in the following environment:
 

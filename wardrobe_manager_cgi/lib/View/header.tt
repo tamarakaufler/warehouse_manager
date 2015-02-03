@@ -1,0 +1,36 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<title>[% title %]</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+ <body>
+	 <p><strong><a href="/wardrobe_manager/manager.cgi">Welcome to The Wardrobe Manager</a></strong></p>
+
+	 [% IF message %] <p style="color: blue;"> [% message %]</p>[% END %]
+	 [% IF error %]   <p style="color: red;">[% error %]    </p>[% END %]
+
+	 <form name="search" method=GET action="/wardrobe_manager/manager.cgi">
+		<input type="hidden" name="mode" value="search">
+
+		 Name of the item to search for <input type="text" name="clothing_name" title="Name of the garment" />
+		 <input type="submit" value="Search" /><br />
+	 </form> 
+
+	 <form enctype="multipart/form-data" name="upload" method=POST action="/wardrobe_manager/manager.cgi">
+		<input type="hidden" name="mode" value="upload">
+
+		 Name of the CSV file to upload <input type="file" name="file" title="Name of the CSV file to upload" />
+		 <input type="submit" value="Upload" /><br />
+	 </form><br />
+
+	 <form name="add_outfit" method=POST action="/wardrobe_manager/manager.cgi">
+		<input type="hidden" name="mode" value="add_outfit">
+
+		 Name of a new outfit <input type="text" name="outfit_name" title="Name of the outfit" />
+		 <input type="submit" value="Add" /><br />
+	 </form> 
+
+

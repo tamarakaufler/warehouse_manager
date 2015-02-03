@@ -1,0 +1,52 @@
+[% clothings = clothings_rs.all %]
+[% outfits   = outfits_rs.all %]
+
+<h3>Search results</h3>
+
+[% IF !clothings || !clothings.size %]
+	No items of found
+[% ELSE %]
+	<h4>[% clothings.size %] item[% IF clothings.size > 1 %]s[% END %] found</h4>
+[% END %]
+
+
+[% FOREACH clothing IN clothings  %] 
+	<table>  
+
+		 <form method=POST action="/catalogue/tag">
+			<input type="hidden" name="mode" value="tag">
+			<input type="hidden" name="clothing" value="[% clothing.id %]">
+			<tr>  
+				<td>            
+					<strong>[% clothing.name %]</strong>
+				</td>            
+				<td>            
+					<strong>([% clothing.category.name %])</strong>
+				</td>            
+			</tr>              
+			[% FOREACH outfit IN clothing.outfits  %] 
+				<tr colspan="2">  
+					<td>            
+						[% outfit.name %]
+					</td>            
+				</tr>       	
+			[% END %]
+			<tr colspan="2"><td>
+
+				 Select outfits to tag with
+				 <select name="outfits" "multiple" size="3">
+					[% FOREACH outfit = outfits %]
+						<option value="[% outfit.id %]">[% outfit.name %]
+					[% END %]
+					<input type="submit" value="Tag" />
+				 </select>		 		 
+
+			</td></tr>
+			<tr colspan="2"><td></td></tr>
+
+		</form> 
+
+	</table>                
+[% END %]
+
+
