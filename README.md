@@ -45,6 +45,11 @@ Tested on:
     Class:Accessor	    
     Text::CSV:Encoded
 
+    Required modules for the Catalyst application:
+
+    Catalyst 5.08
+
+
 ---------------------------------------------------------------------------
 
 REQUIREMENTS FOR web services implementation
