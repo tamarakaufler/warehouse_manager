@@ -131,25 +131,25 @@ sample upload files are in sample_files dir on the same lever as the README file
 1) CRud for clothing/category/outfit ... search (by id and name) and creation so far
 
 GET:
-    curl -X GET  http://localhost:3010/api/clothing/id/3
-    curl -X GET  http://localhost:3010/api/clothing/outfit/3
-    curl -X GET  http://localhost:3010/api/clothing/name/iRun%20White%20Trainers
-    curl -X GET  http://localhost:3010/api/clothing/name/%Trainers    (fuzzy search)
-    curl -X GET  http://localhost:3010/api/clothing/name/Nice™%       (fuzzy search)
-    curl -X GET  http://localhost:3010/api/category/name/Shoes
-    curl -X GET  http://localhost:3010/api/outfit/id/3
-    curl -X GET  http://localhost:3010/api/outfit
+	    curl -X GET  http://localhost:3010/api/clothing/id/3
+	    curl -X GET  http://localhost:3010/api/clothing/outfit/3
+	    curl -X GET  http://localhost:3010/api/clothing/name/iRun%20White%20Trainers
+	    curl -X GET  http://localhost:3010/api/clothing/name/%Trainers    (fuzzy search)
+	    curl -X GET  http://localhost:3010/api/clothing/name/Nice™%       (fuzzy search)
+	    curl -X GET  http://localhost:3010/api/category/name/Shoes
+	    curl -X GET  http://localhost:3010/api/outfit/id/3
+	    curl -X GET  http://localhost:3010/api/outfit
 
 POST:
-    curl -X POST -H "Accept: application/json" -H "Content-type: application/json" -d '{"name":"Trousers"}'  http://localhost:3010/api/category
-    curl -X POST -T tagging2.json  http://localhost:3010/tag/clothing
-
-    Retrieval of a list of clothes, their categories and associated outfits
-    curl -X GET  http://localhost:3010/api
-
-    Tagging of clothes(clothing_outfit)
-    curl -X POST -T tagging2.json  http://localhost:3010/tag/clothing 
-    curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"clothing":"3", "outfit":"4"}'  http://localhost:3010/tag/clothing
+	    curl -X POST -H "Accept: application/json" -H "Content-type: application/json" -d '{"name":"Trousers"}'  http://localhost:3010/api/category
+	    curl -X POST -T tagging2.json  http://localhost:3010/tag/clothing
+	
+	    Retrieval of a list of clothes, their categories and associated outfits
+	    curl -X GET  http://localhost:3010/api
+	
+	    Tagging of clothes(clothing_outfit)
+	    curl -X POST -T tagging2.json  http://localhost:3010/tag/clothing 
+	    curl -H "Accept: application/json" -H "Content-type: application/json" -X POST -d '{"clothing":"3", "outfit":"4"}'  http://localhost:3010/tag/clothing
 
     Clothing and categories can be created by uploading a CSV or JSON file. Format of the JSON file can be a hash
     or an array of hashes. The file extension should correspond to its content:        
