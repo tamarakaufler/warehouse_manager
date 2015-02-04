@@ -1,6 +1,3 @@
-[% clothings = clothings_rs.all %]
-[% outfits   = outfits_rs.all %]
-
 <h3>Search results</h3>
 
 [% IF !clothings || !clothings.size %]

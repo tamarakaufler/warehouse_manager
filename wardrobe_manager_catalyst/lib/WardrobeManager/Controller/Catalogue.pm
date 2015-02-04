@@ -3,15 +3,14 @@ package WardrobeManager::Controller::Catalogue;
 use base 'Catalyst::Controller';
 
 use lib qw( .. );
+use v5.018;
 use utf8;
 use open ':encoding(utf8)';
+use feature 'unicode_strings';
 
-#use Text::CSV::Encoded;
 use WardrobeManager::Controller::Helper;
 
-$|++;
-use Data::Dumper qw(Dumper);
-$ENV{DBIC_TRACE} = 1;
+#$ENV{DBIC_TRACE} = 1;
 
 =head1 NAME
 
@@ -48,16 +47,13 @@ sub search : Path('search') CaptureArgs(0) {
                                      { order_by => [qw/ name /] }
                                  );
 
-    ## set up information for the template
-    $c->stash->{ clothings_rs } = $clothings_rs;
-    $c->stash->{ outfits_rs }   = $outfits_rs;
+    my ($clothings, $outfits) = massage4output($clothings_rs, $outfits_rs);
 
-    while (my $this = $clothings_rs->next) {
-        say STDERR $this->name;
-    }
+    $c->stash->{ clothings } = $clothings;
+    $c->stash->{ outfits }   = $outfits;
 
-    $c->stash->{ mode }     = 'search';
-    $c->stash->{ template } = 'index.tt';
+    $c->stash->{ mode }      = 'search';
+    $c->stash->{ template }  = 'index.tt';
 
 }
 

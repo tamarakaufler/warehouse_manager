@@ -8,15 +8,21 @@ provides helper methods
 
 use strict;
 use warnings;
-use v5.010;
+use v5.018;
 use utf8;
-#use open ':encoding(utf8)';
+use open ':encoding(utf8)';
+use feature 'unicode_strings';
+use Encode qw(encode decode);
 
 use Text::CSV::Encoded;
 
 use base qw(Exporter);
 
-our @EXPORT = qw( sanitize aggregate_data add_to_catalogue retag_clothing );
+our @EXPORT = qw(   sanitize
+                    aggregate_data 
+                    add_to_catalogue 
+                    retag_clothing
+                    massage4output );
 
 =head2 Public methods
 
@@ -36,9 +42,8 @@ sub sanitize {
     $text =~ s/\s+$//;
     $text =~ s#[\\/<>`|!\$*()~{}'"?]+##g;        # ! $ ^ & * ( ) ~ [ ] \ | { } ' " ; < > ?
     $text =~ s/\s{2,}/ /g;
-    $text =~ /^([\x00-\xFF]*)$/;
 
-    return $1;
+    return $text;
 }
 
 =head3 aggregate_data
@@ -186,5 +191,36 @@ sub retag_clothing {
 
 }
 
+=head3 massage4output
+
+    massage DBIC data into a Perl structure
+    The reason is to encode entity name's Perl internal encoding from iso-8859-1 into utf8 (not sure why this is needed)
+    (to avoid wide-character warning and showing the special replacement character on the web page and in the terminal)
+
+=cut
+
+sub massage4output {
+    my ($clothings_rs, $outfits_rs) = @_;
+
+    my $clothings = [];
+    my $outfits   = [];
+
+    while (my $clothing = $clothings_rs->next) {
+        say STDERR $clothing->name;
+        my $category = $clothing->category;
+        
+        push @$clothings, { id => $clothing->id, name => encode('utf8', $clothing->name),  
+                            category => { 
+                                            id   => $clothing->category->id, 
+                                            name => encode('utf8', $clothing->category->name), 
+                                        },
+                          };
+    }
+    while (my $outfit = $outfits_rs->next) {
+        push @$outfits, { id => $outfit->id, name => encode('utf8', $outfit->name), };
+    }
+
+    return ($clothings, $outfits);
+}
 
 1;
