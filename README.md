@@ -54,7 +54,7 @@ Tested on:
 
 REQUIREMENTS FOR web services implementation
 
-Provide a RESTful web service with equivalent functionality as the Wardrobe Management web application with GUI (in jeroboam repo).
+Provide a RESTful web service with equivalent functionality as the Wardrobe Management web application with GUI.
 
 Web Services IMPLEMENTATION
 
@@ -75,9 +75,6 @@ Required modules are listed in Makefile.PL and will be installed by running
     perl Makefile.PL
 
 INSTALLATION
-
-Apart from the provided tarball, I can put, for the ease of inspecting the code and installing, the codebase on github under 
-some unconspicuous name like test_repo with an uninteresting README content, if preferred.
 
 Codebase:
 
