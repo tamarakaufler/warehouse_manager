@@ -38,11 +38,14 @@ script for online management of clothes:
 
 use strict;
 use warnings;
+use v5.018;
 use lib qw( lib );
 
 use CGI;
 use Template;
 use CGI::Carp qw( fatalsToBrowser warningsToBrowser );
+use utf8;
+use open ':encoding(utf8)';
 
 use Controller::Manager;
 use Controller::Helper;
@@ -71,10 +74,8 @@ print $cgi->header(-charset=>'utf-8');
 ## actions to support business requirements
 if ( $mode eq 'search' ) {
 
-	print STDERR "=== " . $cgi->param( 'clothing_name' ) . "\n";
-
     ( $tt_vars->{ clothings },
-      $tt_vars->{ outfits } ) = $manager->search( $cgi->param( 'clothing_name' ));
+      $tt_vars->{ outfits } ) = massage4output($manager->search( $cgi->param( 'clothing_name' )));
 
 } elsif( $mode eq 'upload' ) {
     $manager->upload($cgi);

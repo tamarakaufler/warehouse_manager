@@ -20,7 +20,10 @@ package Controller::Manager;
 
 use strict;
 use warnings;
-use v5.18;
+use v5.018;
+
+use utf8;
+use open ':encoding(utf8)';
 
 use Model::DB;
 use Controller::Helper;
@@ -28,7 +31,7 @@ use Controller::Helper;
 use base qw( Class::Accessor );
 __PACKAGE__->mk_ro_accessors( qw(schema) );
 
-$ENV{DBIC_TRACE} = 1;
+#$ENV{DBIC_TRACE} = 1;
 
 =head1 Public methods
 
@@ -95,22 +98,22 @@ sub search {
         $outfit_table   = 'Outfit';
     }
 
-    my ( @clothings, @outfits );
-    @clothings = $self->schema
+    my ( $clothings_rs, $outfits_rs );
+    $clothings_rs = $self->schema
                          ->resultset( $clothing_table )
                          ->search(
                                      { 'me.name' => { 'like', "%$name%" } },
                                      { prefetch => 'category',
                                        order_by => [ qw/ me.name / ] }
-                                 )->all;
-    @outfits   = $self->schema
+                                 );
+    $outfits_rs   = $self->schema
                          ->resultset( $outfit_table )
                          ->search(
                                      {},
                                      { order_by => [qw/ name /] }
                                  );
 
-    return ( \@clothings, \@outfits );
+    return ( $clothings_rs, $outfits_rs );
 }
 
 =head2 upload method

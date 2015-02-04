@@ -38,7 +38,9 @@ sub _new_instance {
 
 	## TODO: the database connection info would normally be elsewhere
 	$self->{ schema } = Schema->connect("dbi:mysql:wardrobe", 
-					    'wardrobe', 'StRaW101') or die "Cannot connect to database";
+					                    'wardrobe', 'StRaW101',
+        				                { mysql_enable_utf8 => 1 },
+					    ) or die "Cannot connect to database";
 
 	bless $self, $class;
 

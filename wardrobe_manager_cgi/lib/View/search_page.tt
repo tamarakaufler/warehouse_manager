@@ -9,7 +9,7 @@
 [% FOREACH clothing IN clothings %] 
 	<table>  
 
-		 <form method=POST action="/wardrobe_manager/manager.cgi">
+		 <form method=POST action="/wardrobe_manager_cgi/manager.cgi">
 			<input type="hidden" name="mode" value="tag">
 			<input type="hidden" name="clothing" value="[% clothing.id %]">
 			<tr>  
