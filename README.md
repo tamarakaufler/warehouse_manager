@@ -28,7 +28,8 @@ Tested on:
 
 1. MySQL
 
-      mysql -u root -p < wardrobemanager.sql
+	mysql -u root -p < user.sql
+	mysql -u root -p < wardrobemanager.sql
 
 2. Apache    
    
