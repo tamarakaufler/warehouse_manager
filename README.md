@@ -72,10 +72,10 @@ Web Services IMPLEMENTATION
 
 The implemented Wardrobe Management API web service is a Catalyst application built in the following environment:
 
-Ubuntu 14.04, x86_64
-Perl v5.18.2
-Catalyst 5.09
-MySQ: 5.5
+	Ubuntu 14.04, x86_64
+	Perl v5.18.2
+	Catalyst 5.09
+	MySQ: 5.5
 
 The application requires a couple of less usual Perl modules like:
 
