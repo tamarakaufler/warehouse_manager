@@ -1,6 +1,6 @@
 REQUIREMENTS
 
-Provide a RESTful web service with equivalent functionality as the Wardrobe Management web application with GUI (in jeroboam repo).
+Provide a RESTful web service with equivalent functionality as the Wardrobe Management web application with GUI (in warehouse_manager repo).
 
 IMPLEMENTATION
 
