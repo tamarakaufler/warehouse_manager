@@ -1,15 +1,26 @@
 # warehouse_manager
 GUI and API web applications for warehouse management
 
-REQUIREMENTS FOR GUI implementation
+Two GUI implementations are provided:
 
-Two implementations:
-    Catalyst based: wardrobe_manager_catalyst
-    CGI (MVC, DBIx::Class, Template):    : wardrobe_manager_cgi
+	Catalyst based:                     wardrobe_manager_catalyst
+	CGI (MVC, DBIx::Class, Template):   wardrobe_manager_cgi
+    
+RESTful web services:
+
+	Catalyst based:                     wardrobe_manager_catalyst
+
+REQUIREMENTS FOR GUI IMPLEMENTATION
+
+	Search for clothes by name
+	Display a list of clothes, their categories & which outfits they're in
+	Upload a CSV file containing clothes and clothing categories in a specified format
+	Tag clothes as part of an outfit
 
 INSTRUCTIONS FOR SETTING UP THE CGI Wardrobe Manager APPLICATION
 
 Tested on:
+
       Ubuntu 14.04
       Apache/2.4.7
       MySQL 5.5.38
