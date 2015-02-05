@@ -80,6 +80,7 @@ The application requires a couple of less usual Perl modules like:
 
     Catalyst::Controller::REST
     Lingua::EN::Inflect
+    Lingua::EN::Inflect::Number
     Text::CSV::Auto
 
 Required modules are listed in Makefile.PL and will be installed by running 
