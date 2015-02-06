@@ -7,6 +7,7 @@ use v5.018;
 use utf8;
 use open ':encoding(utf8)';
 use feature 'unicode_strings';
+use Encode qw(encode);
 
 use WardrobeManager::Controller::Helper;
 
@@ -180,7 +181,7 @@ sub tag :Local {
 
     }
 
-    $c->stash->{ message } = 'The clothing item "' . $clothing->name . '" has been retagged';
+    $c->stash->{ message } = 'The clothing item "' . encode('utf8', $clothing->name) . '" has been retagged';
 
 }
 =head2 add_outfit method

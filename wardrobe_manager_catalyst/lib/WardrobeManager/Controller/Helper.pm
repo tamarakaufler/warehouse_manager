@@ -12,7 +12,7 @@ use v5.018;
 use utf8;
 use open ':encoding(utf8)';
 use feature 'unicode_strings';
-use Encode qw(encode decode);
+use Encode qw(encode);
 
 use Text::CSV::Encoded;
 
@@ -185,7 +185,7 @@ sub retag_clothing {
 
     }
 
-    $message{ message } = 'The clothing item "' . $clothing->name . '" has been retagged';
+    $message{ message } = 'The clothing item "' . encode('utf8', $clothing->name) . '" has been retagged';
 
     return %message;    
 

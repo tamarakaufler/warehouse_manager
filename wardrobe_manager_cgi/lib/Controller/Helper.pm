@@ -228,7 +228,7 @@ sub retag_clothing {
 
     }
 
-    $message{ message } = 'The clothing item "' . $clothing->name . '" has been retagged';
+    $message{ message } = 'The clothing item "' . encode('utf8', $clothing->name) . '" has been retagged';
 
     return %message;    
 
