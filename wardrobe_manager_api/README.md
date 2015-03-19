@@ -133,10 +133,11 @@ LIMITATIONS
 IMPROVEMENTS 
 
 1) Add crUD functionality (update/delete)
-2) Write unit tests
-3) Add authentication/authorization
-4) Add caching to improve performace
-5) Add more POD
-6) Add versioning
-7) Could have used Try::Tiny
+2) When creating new entities, use find and create separately rather than find_or_create and output only created entities
+3) Write unit tests
+4) Add authentication/authorization
+5) Add caching to improve performace
+6) Add more POD
+7) Add versioning
+8) Could have used Try::Tiny
 
