@@ -33,7 +33,7 @@ The root page (/)
 sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->res->redirect('/api/clothing');
+    $c->res->redirect('/api');
 }
 
 =head2 default

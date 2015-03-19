@@ -46,16 +46,10 @@ Catalyst Controller.
 
 =cut
 
-sub index :Path :Args(0) {
+sub index :Path {
     my ( $self, $c ) = @_;
 
-    my $response_data = get_clothing_summary($c);
-    throws_error($self, $c, $response_data);
-
-    $self->status_ok(
-                        $c,
-                        entity => $response_data,
-                    );
+    $c->detach('api_catch');
 }
 
 =head2 api_catch
@@ -64,10 +58,16 @@ catches api calls and redirects to api method
 
 =cut
 
-sub api_catch  :Chained('/') :PathPart('api') :Args {
+sub api_catch  :Chained('/') :PathPart('api') :Args(0) {
     my ($self, $c) = @_;
 
-    $c->detach('api', ['clothing']);
+    my $response_data = get_clothing_summary($c);
+    throws_error($self, $c, $response_data);
+
+    $self->status_ok(
+                        $c,
+                        entity => $response_data,
+                    );
 }
 
 =head2 api
@@ -98,8 +98,10 @@ if table schemas change
 
 =cut
 
-sub api_GET :Chained('api') :PathPart('') :Args(2) {
+sub api_GET :Chained('api') :PathPart('') :Args {
     my ( $self, $c, @url_params) = @_;
+
+    unshift  @url_params;
 
     my $type          =  $c->stash->{entity_type};
     my $response_data = get_listing($c, $type, \@url_params);
@@ -120,6 +122,8 @@ sub api_GET :Chained('api') :PathPart('') :Args(2) {
                           message => "No $plural found",
                         );
     }
+
+    $c->detach;
 }
 
 =head2 api_POST
@@ -184,6 +188,8 @@ sub api_POST :Chained('api') :PathPart('') :Args(0) {
                         $c,
                         entity => $response_data,
                     );
+
+    $c->detach;
 }
 
 =head2 api_PUT
@@ -196,6 +202,7 @@ sub api_PUT :Chained('api') :PathPart('') :Args(0) {
     my ($self, $c) = @_;
 
     $c->response->body('So much more to do: updating ... ');
+    $c->detach;
 }
 
 =head2 api_DELETE
@@ -208,6 +215,7 @@ sub api_DELETE :Chained('api') :PathPart('') :Args(1) {
     my ($self, $c) = @_;
 
     $c->response->body('So much more to do: deleting ... ');
+    $c->detach;
 }
 
 
