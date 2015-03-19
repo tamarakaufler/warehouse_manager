@@ -114,7 +114,7 @@ sub outfit_doc {
 
 }
 
-=head3 clothingi_outfit_doc
+=head3 clothing_outfit_doc
 
 =cut
 
