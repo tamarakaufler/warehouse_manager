@@ -46,10 +46,10 @@ Catalyst Controller.
 
 =cut
 
-sub index :Path {
+sub index :Path :Args(0) {
     my ( $self, $c ) = @_;
 
-    $c->detach('api_catch');
+    $c->detach('api', ['clothing']);
 }
 
 =head2 api_catch
@@ -58,23 +58,17 @@ catches api calls and redirects to api method
 
 =cut
 
-sub api_catch  :Chained('/') :PathPart('api') :Args(0) {
+sub api_catch  :Chained('/') :PathPart('api') {
     my ($self, $c) = @_;
 
-    my $response_data = get_clothing_summary($c);
-    throws_error($self, $c, $response_data);
-
-    $self->status_ok(
-                        $c,
-                        entity => $response_data,
-                    );
+    $c->detach('api', ['clothing']);
 }
 
 =head2 api
 
 =cut
 
-sub api  :Chained('/') :PathPart('api') :CaptureArgs(1) :ActionClass('REST') {
+sub api  :Chained('/') :PathPart('api') CaptureArgs(1) :ActionClass('REST') {
     my ($self, $c, $type) = @_;
 
     $c->stash->{ entity_type } = $type;
@@ -98,10 +92,8 @@ if table schemas change
 
 =cut
 
-sub api_GET :Chained('api') :PathPart('') :Args {
-    my ( $self, $c, @url_params) = @_;
-
-    unshift  @url_params;
+sub api_GET :Chained('api') :PathPart('') Args {
+    my ($self, $c, @url_params) = @_;
 
     my $type          =  $c->stash->{entity_type};
     my $response_data = get_listing($c, $type, \@url_params);
@@ -122,8 +114,31 @@ sub api_GET :Chained('api') :PathPart('') :Args {
                           message => "No $plural found",
                         );
     }
+}
 
-    $c->detach;
+sub api_GET :Chained('api') :PathPart('') Args {
+    my ( $self, $c, @url_params) = @_;
+
+    my $type          =  $c->stash->{entity_type};
+    $c->stash->{ search_params } = \@url_params;
+
+    my $response_data = get_listing($c, $type, \@url_params);
+    throws_error($self, $c, $response_data);
+
+    if (scalar @$response_data) {
+        $self->status_ok(
+                          $c,
+                          entity => $response_data,
+                        );
+    }
+    # Error message shown here, could be just showing an empty array
+    else {
+        my $plural = ucfirst PL($type);
+        $self->status_not_found(
+                          $c,
+                          message => "No $plural found",
+                        );
+    }
 }
 
 =head2 api_POST
@@ -137,7 +152,7 @@ the input data format
 
 =cut
 
-sub api_POST :Chained('api') :PathPart('') :Args(0) {
+sub api_POST {
     my ($self, $c) = @_;
 
     my $response_data = {};
@@ -188,8 +203,6 @@ sub api_POST :Chained('api') :PathPart('') :Args(0) {
                         $c,
                         entity => $response_data,
                     );
-
-    $c->detach;
 }
 
 =head2 api_PUT
@@ -198,11 +211,10 @@ TODO
 
 =cut
 
-sub api_PUT :Chained('api') :PathPart('') :Args(0) {
+sub api_PUT {
     my ($self, $c) = @_;
 
     $c->response->body('So much more to do: updating ... ');
-    $c->detach;
 }
 
 =head2 api_DELETE
@@ -211,11 +223,10 @@ TODO
 
 =cut
 
-sub api_DELETE :Chained('api') :PathPart('') :Args(1) {
+sub api_DELETE {
     my ($self, $c) = @_;
 
     $c->response->body('So much more to do: deleting ... ');
-    $c->detach;
 }
 
 
