@@ -79,7 +79,7 @@ sub get_clothing_summary {
     my $response_data = [];
     eval {
         my $clothings_rs  = $c->model('WardrobeManagerApiDB::Clothing')
-                              ->search({}, { prefetch => { 'category' }});
+                              ->search({}, { prefetch => [ 'category' ]});
     
         while (my $clothing_data = $clothings_rs->next) {
             push @$response_data, { clothing => $clothing_data->get_summary($c) }; 
