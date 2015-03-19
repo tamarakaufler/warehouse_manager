@@ -5,6 +5,8 @@ use utf8;
 
 use Lingua::EN::Inflect     qw(PL);
 
+use Data::Dumper qw (Dumper);
+
 use Moose;
 use namespace::autoclean;
 
@@ -56,14 +58,26 @@ sub index :Path :Args(0) {
                     );
 }
 
+=head2 api_catch
+
+catches api calls and redirects to api method
+
+=cut
+
+sub api_catch  :Chained('/') :PathPart('api') :Args {
+    my ($self, $c) = @_;
+
+    $c->detach('api', ['clothing']);
+}
+
 =head2 api
 
 =cut
 
-sub api  :Path('/api')   :ActionClass('REST') {
-    my ($self, $c, @url_params) = @_;
+sub api  :Chained('/') :PathPart('api') :CaptureArgs(1) :ActionClass('REST') {
+    my ($self, $c, $type) = @_;
 
-    $c->stash->{ entity_type }   = shift @url_params;
+    $c->stash->{ entity_type } = $type;
 
     if (! $c->stash->{ entity_type }        || 
         ! scalar grep { $c->stash->{ entity_type } eq $_ } qw(clothing category outfit clothing_outfit)) {
@@ -72,20 +86,24 @@ sub api  :Path('/api')   :ActionClass('REST') {
                             message => 'Error: /api/clothing|category|outfit clothing_outfit/...',
                         );
     }
-
-    $c->stash->{ search_params } = \@url_params;
 }
 
 =head2 api_GET
 
+Leaving an optional number of URL parameters
+to be captured and processed dynamically 
+gives flexibility regarding the database table design.
+The code does not need to be changed 
+if table schemas change
+
 =cut
 
-sub api_GET {
-    my ( $self, $c ) = @_;
+sub api_GET :Chained('api') :PathPart('') :Args(2) {
+    my ( $self, $c, @url_params) = @_;
 
-    my $type =  $c->stash->{entity_type};
-    
-    my $response_data = get_listing($c, $type, $c->stash->{ search_params });
+    my $type          =  $c->stash->{entity_type};
+    my $response_data = get_listing($c, $type, \@url_params);
+
     throws_error($self, $c, $response_data);
 
     if (scalar @$response_data) {
@@ -94,6 +112,7 @@ sub api_GET {
                           entity => $response_data,
                         );
     }
+    # Error message shown here, could be just showing an empty array
     else {
         my $plural = ucfirst PL($type);
         $self->status_not_found(
@@ -101,7 +120,6 @@ sub api_GET {
                           message => "No $plural found",
                         );
     }
-
 }
 
 =head2 api_POST
@@ -115,7 +133,7 @@ the input data format
 
 =cut
 
-sub api_POST {
+sub api_POST :Chained('api') :PathPart('') :Args(0) {
     my ($self, $c) = @_;
 
     my $response_data = {};
@@ -174,7 +192,7 @@ TODO
 
 =cut
 
-sub api_PUT {
+sub api_PUT :Chained('api') :PathPart('') :Args(0) {
     my ($self, $c) = @_;
 
     $c->response->body('So much more to do: updating ... ');
@@ -186,7 +204,7 @@ TODO
 
 =cut
 
-sub api_DELETE {
+sub api_DELETE :Chained('api') :PathPart('') :Args(1) {
     my ($self, $c) = @_;
 
     $c->response->body('So much more to do: deleting ... ');
