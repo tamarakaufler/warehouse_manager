@@ -1,6 +1,6 @@
 REQUIREMENTS
 
-Provide a RESTful web service with equivalent functionality as the Wardrobe Management web application with GUI (in warehouse_manager repo).
+Provide a RESTful web service with equivalent functionality as the Wardrobe Management web application with GUI.
 
 IMPLEMENTATION
 
@@ -11,7 +11,7 @@ Perl v5.18.2
 Catalyst 5.09
 MySQ: 5.5
 
-The application requires a couple of less usual Perl modules like:
+The application requires a couple of additional Perl modules:
 
     Catalyst::Controller::REST
     Lingua::EN::Inflect
@@ -21,9 +21,6 @@ Required modules are listed in Makefile.PL and will be installed by running
     perl Makefile.PL
 
 INSTALLATION
-
-Apart from the provided tarball, I can put, for the ease of inspecting the code and installing, the codebase on github under 
-some unconspicuous name like test_repo with an uninteresting README content, if preferred.
 
 Codebase:
 
@@ -42,6 +39,10 @@ MySQL
     To import the provided test data, if desired:
         mysql -u root -p import_data.sql
 
+NOTE
+
+A GUI application and an API web service with equivalent functionality are running on http://178.62.10.94:3010 and http://178.62.10.94:3011 respectively.
+
 DOCUMENTATION
 
     curl -X GET  http://localhost:3010/readme
@@ -53,7 +54,7 @@ DOCUMENTATION
 
 PROVIDED FUNCTIONALITY
 
-The application does not, currently, provide all the required functionality, and there is scope for improvement in what is provided.
+The application provides partial functionality and has scope for improvement.
 
 1) CRud for clothing/category/outfit ... search (by id and name) and outfit (tagging) so far
 2) Retrieval of a list of clothes, their categories and associated outfits
@@ -114,6 +115,16 @@ POST:
         curl -X POST -F 'file=@incorrect_format.js'  http://localhost:3010/api/clothing
         curl -X POST -F 'file=@empty.csv'  http://localhost:3010/api/clothing
 
+DOCUMENTATION
+
+http://127.0.0.1:3010/readme
+
+http://127.0.0.1:3010/docs/clothing
+http://127.0.0.1:3010/docs/category
+http://127.0.0.1:3010/docs/outfit
+http://127.0.0.1:3010/docs/clothing_outfit
+
+
 LIMITATIONS
 
 1) No unit tests
@@ -122,11 +133,10 @@ LIMITATIONS
 IMPROVEMENTS 
 
 1) Add crUD functionality (update/delete)
-2) When creating new entities, use find and create separately rather than find_or_create and output only created entities
-3) Write unit tests
-4) Add authentication/authorization
-5) Add caching to improve performace
-6) Add more POD
-7) Add versioning
-8) Could have used Try::Tiny
+2) Write unit tests
+3) Add authentication/authorization
+4) Add caching to improve performace
+5) Add more POD
+6) Add versioning
+7) Could have used Try::Tiny
 
